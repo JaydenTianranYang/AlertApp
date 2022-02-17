@@ -15,7 +15,7 @@ const data = [
     {
         id: "456",
         title: "Save address",
-        screen: "EatsScreen", //change in future
+        screen: "AddressScreen", //change in future
     },
 ];
 
