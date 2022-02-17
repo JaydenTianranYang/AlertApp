@@ -9,22 +9,23 @@ import { selectTravelTimeInformation } from '../slices/navSlice';
 const data = [
   {
     id: "Uber-X-123",
-    title: "UberX",
+    //title: "UberX",
+    title: "Travel time: ",
     multiplier: 1,
     image: "https://links.papareact.com/3pn"
   },
-  {
-    id: "Uber-XL-456",
-    title: "Uber XL",
-    multiplier: 1.2,
-    image: "https://links.papareact.com/5w8"
-  },
-  {
-    id: "Uber-LUX-789",
-    title: "Uber LUX",
-    multiplier: 1.75,
-    image: "https://links.papareact.com/7pf"
-  },
+  // {
+  //   id: "Uber-XL-456",
+  //   title: "Uber XL",
+  //   multiplier: 1.2,
+  //   image: "https://links.papareact.com/5w8"
+  // },
+  // {
+  //   id: "Uber-LUX-789",
+  //   title: "Uber LUX",
+  //   multiplier: 1.75,
+  //   image: "https://links.papareact.com/7pf"
+  // },
 ];
 
 //If we have SURGE pricing, this goes up
@@ -39,7 +40,7 @@ const RideOptionCard = () => {
     <SafeAreaView style={tw`bg-white flex-grow`}>
       <View>
         <Text style={tw`text-center py-5 text-xl`}>
-          Select a Ride - {travalTimeInformation?.distance.text}</Text>
+          Select a Ride - {travalTimeInformation?.distance?.text}</Text>
         <TouchableOpacity
           onPress={() => navigation.navigate("NavigateCard")}
           style={tw`absolute top-3 left-5 p-3 rounded-full`}
@@ -62,9 +63,9 @@ const RideOptionCard = () => {
             />
             <View style={tw`-ml-6`}>
               <Text style={tw`text-xl font-semibold`}>{title}</Text>
-              <Text>{travalTimeInformation?.duration.text} Travel Time</Text>
+              <Text>{travalTimeInformation?.duration?.text} Travel Time</Text>
             </View>
-            <Text style={tw`text-xl`}>
+            {/* <Text style={tw`text-xl`}>
 
               {new Intl.NumberFormat('en-gb', {
                 style: 'currency',
@@ -77,14 +78,15 @@ const RideOptionCard = () => {
               
               }
 
-            </Text>
+            </Text> */}
           </TouchableOpacity>
         )}
       />
 
       <View style={tw`mt-auto border-t border-gray-200`}>
         <TouchableOpacity disabled={!selected} style={tw`bg-black py-3 m-3 ${!selected && 'bg-gray-300'}`}>
-          <Text style={tw`text-center text-white text-xl`}>Choose {selected?.title}</Text>
+          {/* <Text style={tw`text-center text-white text-xl`}>Choose {selected?.title}</Text> */}
+          <Text style={tw`text-center text-white text-xl`}>Start</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
