@@ -1,5 +1,5 @@
 import React from 'react';
-import { KeyboardAvoidingView } from 'react-native';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 import { Provider } from 'react-redux';
 import HomeScreen from './screens/HomeScreen';
 import MapScreen from './screens/MapScreen';

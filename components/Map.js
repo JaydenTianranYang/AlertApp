@@ -1,17 +1,34 @@
 import React, { useEffect, useRef } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { useDispatch, useSelector } from 'react-redux';
 import tw from "tailwind-react-native-classnames";
 import { selectDestination, selectOrigin, setTravalTimeInformation } from '../slices/navSlice';
 import { GOOGLE_MAPS_APIKEY } from "@env";
+import * as Location from 'expo-location';
 
 const Map = () => {
     const origin = useSelector(selectOrigin);
     const destination = useSelector(selectDestination);
+    const [currentLocation, setCurrentLocation] = React.useState({ latitude: origin.location.lat, longitude: origin.location.lng });
     const mapRef = useRef(null);
     const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        const intervalId = setInterval(async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                console.log('Location Permission not granted');
+                return;
+            }
+            let location = await Location.getCurrentPositionAsync({accuracy:Location.Accuracy.Highest});
+            const { latitude , longitude } = location.coords;
+            setCurrentLocation({ latitude, longitude });
+        }, 5000);
+
+        return () => clearInterval(intervalId);
+    }, []);
 
     useEffect(() => {
         if (!origin || !destination) return;
@@ -39,7 +56,7 @@ const Map = () => {
 
         getTravelTime();
     }, [origin, destination, GOOGLE_MAPS_APIKEY])
-    //compeltely reponsible for calculatibg the travel time
+    // completely responsible for calculating the travel time
 
     return (
         <MapView
@@ -62,6 +79,8 @@ const Map = () => {
                     strokeColor="black"
                 />
             )}
+
+            <Marker coordinate={currentLocation} title="Current Location" identifier="current" />
 
             {origin?.location && (
                 <Marker
