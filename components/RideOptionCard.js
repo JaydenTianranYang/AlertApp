@@ -1,10 +1,11 @@
-import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity, FlatList, Image } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity, FlatList, Image, Button } from 'react-native';
 import React, { useState } from 'react';
 import tw from "tailwind-react-native-classnames";
 import { Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { selectTravelTimeInformation } from '../slices/navSlice';
+import Dialog from "react-native-dialog";
 
 const data = [
   {
@@ -35,6 +36,21 @@ const RideOptionCard = () => {
   const navigation = useNavigation();
   const [selected, setSelected] = useState(null);
   const travalTimeInformation = useSelector(selectTravelTimeInformation);
+
+  const [visible, setVisible] = useState(false);
+  const showDialog = () => {
+    setVisible(true);
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
+  const handleConitnue = () => {
+    // The user has pressed the "Delete" button, so here you can do your own logic.
+    // ...Your logic
+    setVisible(false);
+  };
 
   return (
     <SafeAreaView style={tw`bg-white flex-grow`}>
@@ -86,9 +102,33 @@ const RideOptionCard = () => {
       <View style={tw`mt-auto border-t border-gray-200`}>
         <TouchableOpacity disabled={!selected} style={tw`bg-black py-3 m-3 ${!selected && 'bg-gray-300'}`}>
           {/* <Text style={tw`text-center text-white text-xl`}>Choose {selected?.title}</Text> */}
-          <Text style={tw`text-center text-white text-xl`}>Start</Text>
+          <View style={styles.container}>
+            <Button title="Start" onPress={showDialog} />
+            <Dialog.Container visible={visible}>
+              <Dialog.Title>Hi</Dialog.Title>
+              <Dialog.Description>
+                You are nearby the destination!
+              </Dialog.Description>
+              <Dialog.Button label="Cancel" onPress={handleCancel} />
+              <Dialog.Button label="Continue" onPress={handleConitnue} />
+            </Dialog.Container>
+          </View>
         </TouchableOpacity>
       </View>
+
+      {/* <View>
+      // dialog box
+        <Button
+          title={'dialog box'}
+          onPress={() =>
+            Dialog.show({
+            type: ALERT_TYPE.SUCCESS,
+            title: 'Success',
+            textBody: 'Congrats! this is dialog box success',
+            button: 'close',
+            })
+          }/>
+      </View> */}
     </SafeAreaView>
   );
 };
